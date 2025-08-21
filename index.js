@@ -1,12 +1,20 @@
+// Filename - index.js
 
+// Importing express module
+const express = require("express")
+const app = express()
 
-const http = require("http")
-
-const server = http.createServer((req, res) => {
-    res.write("Soy Joan")
-    res.end();
+// Handling GET / request
+app.use("/", (req, res, next) => {
+    res.send("This is the express server")
 })
 
-server.listen((3000), () => {
-    console.log("Server is Running");
+// Handling GET /hello request
+app.get("/hello", (req, res, next) => {
+    res.send("This is the hello response");
+})
+
+// Server setup
+app.listen(3000, () => {
+    console.log("Server is Running")
 })
