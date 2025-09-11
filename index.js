@@ -5,13 +5,17 @@ const express = require("express")
 const app = express()
 
 // Handling GET / request
-app.use("/", (req, res, next) => {
+app.get("/", (req, res, next) => {
     res.send("This is express")
 })
 
 // Handling GET /hello request
 app.get("/hello", (req, res, next) => {
     res.send("This is the hello response");
+})
+
+app.get("/user/:name", (req, res) => {
+  res.send("Hola " + req.params.name);
 })
 
 // Server setup
