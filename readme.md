@@ -13,11 +13,15 @@
   - id (clave primaria)
   - nombre (no puede estar vacío)
   - dirección (puede estar vacío)
+  - telefono (puede estar vacío y es unico)
 - **Libro**
-  - id (clave primaria)
+  - isbn (clave primaria)
   - título (no puede estar vacío)
   - fecha_publicación
-  - disponible (booleano)
+- **LibroFisico**
+  - id (clave primaria)
+  - disponible (no puede estar vacío)
+  - libro_id
 - **Autor**
   - id (clave primaria)
   - nombre (no puede estar vacío)
