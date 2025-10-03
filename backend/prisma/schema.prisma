@@ -13,3 +13,46 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Usuario {
+  id        Int       @id @default(autoincrement())
+  nombre    String
+  direccion String?
+  Prestamos Prestamo[]
+}
+
+model Libro {
+  id              Int         @id @default(autoincrement())
+  titulo          String
+  fechaPublicacion DateTime?
+  disponible      Boolean
+  LibroAutor      LibroAutor[]
+  Prestamos       Prestamo[]
+}
+model Autor {
+  id        Int         @id @default(autoincrement())
+  nombre    String
+  LibroAutor LibroAutor[]  // Relación muchos-a-muchos con libros
+}
+
+model LibroAutor {
+  libroId Int
+  autorId Int
+  libro   Libro @relation(fields: [libroId], references: [id])
+  autor   Autor @relation(fields: [autorId], references: [id])
+
+  @@id([libroId, autorId])
+}
+
+model Prestamo {
+  id              Int      @id @default(autoincrement())
+  usuarioId       Int
+  libroId         Int
+  fechaPrestamo   DateTime
+  fechaDevolucion DateTime?
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+  libro   Libro   @relation(fields: [libroId], references: [id])
+
+  @@unique([usuarioId, libroId, fechaPrestamo]) // Unicidad de préstamo: un usuario no puede tener el mismo libro en la misma fecha
+}
