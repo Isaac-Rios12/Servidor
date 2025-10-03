@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
@@ -15,44 +9,44 @@ datasource db {
 }
 
 model Usuario {
-  id        Int       @id @default(autoincrement())
+  id        Int        @id @default(autoincrement())
   nombre    String
   direccion String?
   Prestamos Prestamo[]
 }
 
 model Libro {
-  id              Int         @id @default(autoincrement())
-  titulo          String
+  id               Int          @id @default(autoincrement())
+  titulo           String
   fechaPublicacion DateTime?
-  disponible      Boolean
-  LibroAutor      LibroAutor[]
-  Prestamos       Prestamo[]
+  disponible       Boolean
+  LibroAutor       LibroAutor[]
+  Prestamos        Prestamo[]
 }
+
 model Autor {
-  id        Int         @id @default(autoincrement())
-  nombre    String
-  LibroAutor LibroAutor[]  // Relación muchos-a-muchos con libros
+  id         Int          @id @default(autoincrement())
+  nombre     String
+  LibroAutor LibroAutor[]
 }
 
 model LibroAutor {
   libroId Int
   autorId Int
-  libro   Libro @relation(fields: [libroId], references: [id])
   autor   Autor @relation(fields: [autorId], references: [id])
+  libro   Libro @relation(fields: [libroId], references: [id])
 
   @@id([libroId, autorId])
 }
 
 model Prestamo {
-  id              Int      @id @default(autoincrement())
+  id              Int       @id @default(autoincrement())
   usuarioId       Int
   libroId         Int
   fechaPrestamo   DateTime
   fechaDevolucion DateTime?
+  libro           Libro     @relation(fields: [libroId], references: [id])
+  usuario         Usuario   @relation(fields: [usuarioId], references: [id])
 
-  usuario Usuario @relation(fields: [usuarioId], references: [id])
-  libro   Libro   @relation(fields: [libroId], references: [id])
-
-  @@unique([usuarioId, libroId, fechaPrestamo]) // Unicidad de préstamo: un usuario no puede tener el mismo libro en la misma fecha
+  @@unique([usuarioId, libroId, fechaPrestamo])
 }
