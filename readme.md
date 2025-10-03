@@ -6,6 +6,9 @@
 
 **Entidades y atributos:**
 
+![Diagrama de base de datos](image.png)
+ ##Link de la imagen por si no carga: https://drawsql.app/teams/-4596/diagrams/luz-y-saber
+
 - **Usuario**
   - id (clave primaria)
   - nombre (no puede estar vacío)

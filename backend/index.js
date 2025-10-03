@@ -55,7 +55,22 @@ app.post("/usuarios", async (req, res) =>{
 
     }
 });
+app.post("/libros", async (req, res) =>{
+    try{
+        const {nombre, direccion} = req.body;
+        const nuevoUsuario = await prisma.usuario.create({
+            data: {
+                nombre,
+                direccion
+            },
+        });
+        res.json(nuevoUsuario)
+    } catch (error){
+        console.error(error);
+        res.status(500).json({ error: "Error al crear usuario"});
 
+    }
+});
 // Server setup
 app.listen(3000, () => {
     console.log("Server is Running")
