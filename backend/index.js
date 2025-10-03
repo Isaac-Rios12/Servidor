@@ -3,6 +3,9 @@
 // Importing express module
 const express = require("express")
 const app = express()
+// app.use("/", (req, res, next) => {
+//     res.send("This is express")
+// })
 
 // Handling GET / request
 app.get("/", (req, res, next) => {
