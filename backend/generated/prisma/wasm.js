@@ -35,12 +35,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.16.3
- * Query Engine version: bb420e667c1820a8c05a38023385f6cc7ef8e83a
+ * Prisma Client JS version: 6.17.1
+ * Query Engine version: 272a37d34178c2894197e17273bf937f25acdeac
  */
 Prisma.prismaVersion = {
-  client: "6.16.3",
-  engine: "bb420e667c1820a8c05a38023385f6cc7ef8e83a"
+  client: "6.17.1",
+  engine: "272a37d34178c2894197e17273bf937f25acdeac"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -92,35 +92,42 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.UsuarioScalarFieldEnum = {
+exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
-  nombre: 'nombre',
-  direccion: 'direccion'
+  name: 'name',
+  address: 'address'
 };
 
-exports.Prisma.LibroScalarFieldEnum = {
+exports.Prisma.BookScalarFieldEnum = {
   id: 'id',
-  titulo: 'titulo',
-  fechaPublicacion: 'fechaPublicacion',
-  disponible: 'disponible'
+  isbn: 'isbn',
+  title: 'title',
+  publicationDate: 'publicationDate'
 };
 
-exports.Prisma.AutorScalarFieldEnum = {
+exports.Prisma.PhysicalBookScalarFieldEnum = {
   id: 'id',
-  nombre: 'nombre'
+  available: 'available',
+  bookId: 'bookId'
 };
 
-exports.Prisma.LibroAutorScalarFieldEnum = {
-  libroId: 'libroId',
-  autorId: 'autorId'
+exports.Prisma.AuthorScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
 };
 
-exports.Prisma.PrestamoScalarFieldEnum = {
+exports.Prisma.BookAuthorScalarFieldEnum = {
   id: 'id',
-  usuarioId: 'usuarioId',
-  libroId: 'libroId',
-  fechaPrestamo: 'fechaPrestamo',
-  fechaDevolucion: 'fechaDevolucion'
+  bookId: 'bookId',
+  authorId: 'authorId'
+};
+
+exports.Prisma.LoanScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  physicalBookId: 'physicalBookId',
+  loanDate: 'loanDate',
+  returnDate: 'returnDate'
 };
 
 exports.Prisma.SortOrder = {
@@ -140,11 +147,12 @@ exports.Prisma.NullsOrder = {
 
 
 exports.Prisma.ModelName = {
-  Usuario: 'Usuario',
-  Libro: 'Libro',
-  Autor: 'Autor',
-  LibroAutor: 'LibroAutor',
-  Prestamo: 'Prestamo'
+  User: 'User',
+  Book: 'Book',
+  PhysicalBook: 'PhysicalBook',
+  Author: 'Author',
+  BookAuthor: 'BookAuthor',
+  Loan: 'Loan'
 };
 /**
  * Create the Client
@@ -179,13 +187,12 @@ const config = {
     "schemaEnvPath": "../../.env"
   },
   "relativePath": "../../prisma",
-  "clientVersion": "6.16.3",
-  "engineVersion": "bb420e667c1820a8c05a38023385f6cc7ef8e83a",
+  "clientVersion": "6.17.1",
+  "engineVersion": "272a37d34178c2894197e17273bf937f25acdeac",
   "datasourceNames": [
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -194,13 +201,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Usuario {\n  id        Int        @id @default(autoincrement())\n  nombre    String\n  direccion String?\n  Prestamos Prestamo[]\n}\n\nmodel Libro {\n  id               Int          @id @default(autoincrement())\n  titulo           String\n  fechaPublicacion DateTime?\n  disponible       Boolean\n  LibroAutor       LibroAutor[]\n  Prestamos        Prestamo[]\n}\n\nmodel Autor {\n  id         Int          @id @default(autoincrement())\n  nombre     String\n  LibroAutor LibroAutor[]\n}\n\nmodel LibroAutor {\n  libroId Int\n  autorId Int\n  autor   Autor @relation(fields: [autorId], references: [id])\n  libro   Libro @relation(fields: [libroId], references: [id])\n\n  @@id([libroId, autorId])\n}\n\nmodel Prestamo {\n  id              Int       @id @default(autoincrement())\n  usuarioId       Int\n  libroId         Int\n  fechaPrestamo   DateTime\n  fechaDevolucion DateTime?\n  libro           Libro     @relation(fields: [libroId], references: [id])\n  usuario         Usuario   @relation(fields: [usuarioId], references: [id])\n\n  @@unique([usuarioId, libroId, fechaPrestamo])\n}\n",
-  "inlineSchemaHash": "c783ebbd8b0c4e48dcce7d304b9cee9c54baad636ede3673e9ce15bfaa91a3f6",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id      Int     @id @default(autoincrement())\n  name    String\n  address String?\n  loans   Loan[]\n}\n\nmodel Book {\n  id              Int            @id @default(autoincrement())\n  isbn            String         @unique\n  title           String\n  publicationDate DateTime?\n  bookAuthors     BookAuthor[]\n  physicalBooks   PhysicalBook[]\n}\n\nmodel PhysicalBook {\n  id        Int     @id @default(autoincrement())\n  available Boolean @default(true)\n  bookId    Int\n  book      Book    @relation(fields: [bookId], references: [id])\n  loans     Loan[]\n}\n\nmodel Author {\n  id          Int          @id @default(autoincrement())\n  name        String\n  bookAuthors BookAuthor[]\n}\n\nmodel BookAuthor {\n  id       Int    @id @default(autoincrement())\n  bookId   Int\n  authorId Int\n  book     Book   @relation(fields: [bookId], references: [id])\n  author   Author @relation(fields: [authorId], references: [id])\n\n  @@unique([bookId, authorId])\n}\n\nmodel Loan {\n  id             Int          @id @default(autoincrement())\n  userId         Int\n  physicalBookId Int\n  loanDate       DateTime     @default(now())\n  returnDate     DateTime?\n  physicalBook   PhysicalBook @relation(fields: [physicalBookId], references: [id])\n  user           User         @relation(fields: [userId], references: [id])\n}\n",
+  "inlineSchemaHash": "ab49a73b84e96e8dabb99f4b8b02f06e9f6ea5c1cc61bf625a3ff2715d373dca",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Usuario\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"nombre\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"direccion\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"Prestamos\",\"kind\":\"object\",\"type\":\"Prestamo\",\"relationName\":\"PrestamoToUsuario\"}],\"dbName\":null},\"Libro\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"titulo\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fechaPublicacion\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"disponible\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"LibroAutor\",\"kind\":\"object\",\"type\":\"LibroAutor\",\"relationName\":\"LibroToLibroAutor\"},{\"name\":\"Prestamos\",\"kind\":\"object\",\"type\":\"Prestamo\",\"relationName\":\"LibroToPrestamo\"}],\"dbName\":null},\"Autor\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"nombre\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"LibroAutor\",\"kind\":\"object\",\"type\":\"LibroAutor\",\"relationName\":\"AutorToLibroAutor\"}],\"dbName\":null},\"LibroAutor\":{\"fields\":[{\"name\":\"libroId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"autorId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"autor\",\"kind\":\"object\",\"type\":\"Autor\",\"relationName\":\"AutorToLibroAutor\"},{\"name\":\"libro\",\"kind\":\"object\",\"type\":\"Libro\",\"relationName\":\"LibroToLibroAutor\"}],\"dbName\":null},\"Prestamo\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"usuarioId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"libroId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"fechaPrestamo\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"fechaDevolucion\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"libro\",\"kind\":\"object\",\"type\":\"Libro\",\"relationName\":\"LibroToPrestamo\"},{\"name\":\"usuario\",\"kind\":\"object\",\"type\":\"Usuario\",\"relationName\":\"PrestamoToUsuario\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"loans\",\"kind\":\"object\",\"type\":\"Loan\",\"relationName\":\"LoanToUser\"}],\"dbName\":null},\"Book\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isbn\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"publicationDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"bookAuthors\",\"kind\":\"object\",\"type\":\"BookAuthor\",\"relationName\":\"BookToBookAuthor\"},{\"name\":\"physicalBooks\",\"kind\":\"object\",\"type\":\"PhysicalBook\",\"relationName\":\"BookToPhysicalBook\"}],\"dbName\":null},\"PhysicalBook\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"available\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"bookId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"book\",\"kind\":\"object\",\"type\":\"Book\",\"relationName\":\"BookToPhysicalBook\"},{\"name\":\"loans\",\"kind\":\"object\",\"type\":\"Loan\",\"relationName\":\"LoanToPhysicalBook\"}],\"dbName\":null},\"Author\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bookAuthors\",\"kind\":\"object\",\"type\":\"BookAuthor\",\"relationName\":\"AuthorToBookAuthor\"}],\"dbName\":null},\"BookAuthor\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"bookId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"authorId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"book\",\"kind\":\"object\",\"type\":\"Book\",\"relationName\":\"BookToBookAuthor\"},{\"name\":\"author\",\"kind\":\"object\",\"type\":\"Author\",\"relationName\":\"AuthorToBookAuthor\"}],\"dbName\":null},\"Loan\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"physicalBookId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"loanDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"returnDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"physicalBook\",\"kind\":\"object\",\"type\":\"PhysicalBook\",\"relationName\":\"LoanToPhysicalBook\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"LoanToUser\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

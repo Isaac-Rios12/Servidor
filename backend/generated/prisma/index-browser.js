@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.16.3
- * Query Engine version: bb420e667c1820a8c05a38023385f6cc7ef8e83a
+ * Prisma Client JS version: 6.17.1
+ * Query Engine version: 272a37d34178c2894197e17273bf937f25acdeac
  */
 Prisma.prismaVersion = {
-  client: "6.16.3",
-  engine: "bb420e667c1820a8c05a38023385f6cc7ef8e83a"
+  client: "6.17.1",
+  engine: "272a37d34178c2894197e17273bf937f25acdeac"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -120,35 +120,42 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.UsuarioScalarFieldEnum = {
+exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
-  nombre: 'nombre',
-  direccion: 'direccion'
+  name: 'name',
+  address: 'address'
 };
 
-exports.Prisma.LibroScalarFieldEnum = {
+exports.Prisma.BookScalarFieldEnum = {
   id: 'id',
-  titulo: 'titulo',
-  fechaPublicacion: 'fechaPublicacion',
-  disponible: 'disponible'
+  isbn: 'isbn',
+  title: 'title',
+  publicationDate: 'publicationDate'
 };
 
-exports.Prisma.AutorScalarFieldEnum = {
+exports.Prisma.PhysicalBookScalarFieldEnum = {
   id: 'id',
-  nombre: 'nombre'
+  available: 'available',
+  bookId: 'bookId'
 };
 
-exports.Prisma.LibroAutorScalarFieldEnum = {
-  libroId: 'libroId',
-  autorId: 'autorId'
+exports.Prisma.AuthorScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
 };
 
-exports.Prisma.PrestamoScalarFieldEnum = {
+exports.Prisma.BookAuthorScalarFieldEnum = {
   id: 'id',
-  usuarioId: 'usuarioId',
-  libroId: 'libroId',
-  fechaPrestamo: 'fechaPrestamo',
-  fechaDevolucion: 'fechaDevolucion'
+  bookId: 'bookId',
+  authorId: 'authorId'
+};
+
+exports.Prisma.LoanScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  physicalBookId: 'physicalBookId',
+  loanDate: 'loanDate',
+  returnDate: 'returnDate'
 };
 
 exports.Prisma.SortOrder = {
@@ -168,11 +175,12 @@ exports.Prisma.NullsOrder = {
 
 
 exports.Prisma.ModelName = {
-  Usuario: 'Usuario',
-  Libro: 'Libro',
-  Autor: 'Autor',
-  LibroAutor: 'LibroAutor',
-  Prestamo: 'Prestamo'
+  User: 'User',
+  Book: 'Book',
+  PhysicalBook: 'PhysicalBook',
+  Author: 'Author',
+  BookAuthor: 'BookAuthor',
+  Loan: 'Loan'
 };
 
 /**

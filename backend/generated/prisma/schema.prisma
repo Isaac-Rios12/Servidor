@@ -8,45 +8,52 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Usuario {
-  id        Int        @id @default(autoincrement())
-  nombre    String
-  direccion String?
-  Prestamos Prestamo[]
+model User {
+  id      Int     @id @default(autoincrement())
+  name    String
+  address String?
+  loans   Loan[]
 }
 
-model Libro {
-  id               Int          @id @default(autoincrement())
-  titulo           String
-  fechaPublicacion DateTime?
-  disponible       Boolean
-  LibroAutor       LibroAutor[]
-  Prestamos        Prestamo[]
+model Book {
+  id              Int            @id @default(autoincrement())
+  isbn            String         @unique
+  title           String
+  publicationDate DateTime?
+  bookAuthors     BookAuthor[]
+  physicalBooks   PhysicalBook[]
 }
 
-model Autor {
-  id         Int          @id @default(autoincrement())
-  nombre     String
-  LibroAutor LibroAutor[]
+model PhysicalBook {
+  id        Int     @id @default(autoincrement())
+  available Boolean @default(true)
+  bookId    Int
+  book      Book    @relation(fields: [bookId], references: [id])
+  loans     Loan[]
 }
 
-model LibroAutor {
-  libroId Int
-  autorId Int
-  autor   Autor @relation(fields: [autorId], references: [id])
-  libro   Libro @relation(fields: [libroId], references: [id])
-
-  @@id([libroId, autorId])
+model Author {
+  id          Int          @id @default(autoincrement())
+  name        String
+  bookAuthors BookAuthor[]
 }
 
-model Prestamo {
-  id              Int       @id @default(autoincrement())
-  usuarioId       Int
-  libroId         Int
-  fechaPrestamo   DateTime
-  fechaDevolucion DateTime?
-  libro           Libro     @relation(fields: [libroId], references: [id])
-  usuario         Usuario   @relation(fields: [usuarioId], references: [id])
+model BookAuthor {
+  id       Int    @id @default(autoincrement())
+  bookId   Int
+  authorId Int
+  book     Book   @relation(fields: [bookId], references: [id])
+  author   Author @relation(fields: [authorId], references: [id])
 
-  @@unique([usuarioId, libroId, fechaPrestamo])
+  @@unique([bookId, authorId])
+}
+
+model Loan {
+  id             Int          @id @default(autoincrement())
+  userId         Int
+  physicalBookId Int
+  loanDate       DateTime     @default(now())
+  returnDate     DateTime?
+  physicalBook   PhysicalBook @relation(fields: [physicalBookId], references: [id])
+  user           User         @relation(fields: [userId], references: [id])
 }
