@@ -54,6 +54,7 @@ model Loan {
   physicalBookId Int
   loanDate       DateTime     @default(now())
   returnDate     DateTime?
+  returned       Boolean      @default(false)
   physicalBook   PhysicalBook @relation(fields: [physicalBookId], references: [id])
   user           User         @relation(fields: [userId], references: [id])
 }

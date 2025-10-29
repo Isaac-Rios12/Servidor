@@ -96,7 +96,7 @@
       npx prisma init
 
 
-      Esto crea la carpeta prisma/ y el archivo .env dentro de backend/
+      Esto crea la carpeta prisma/  dentro de backend/
 
 
 3. Configurar la URL de la base de datos en el archivo `.env`
@@ -108,56 +108,68 @@
     Ajusta usuario, contraseña, puerto y base de datos según tu Docker.
 
 4. Definir el esquema de las tablas en `prisma/schema.prisma`
-    En backend/prisma/schema.prisma, define tus modelos:
+    <!-- En backend/prisma/schema.prisma, define tus modelos:
 
-      generator client {
-        provider = "prisma-client-js"
-      }
+    generator client {
+      provider = "prisma-client-js"
+      output   = "../generated/prisma"
+    }
 
-      datasource db {
-        provider = "postgresql"
-        url      = env("DATABASE_URL")
-      }
+    datasource db {
+      provider = "postgresql"
+      url      = env("DATABASE_URL")
+    }
 
-      model Usuario {
-        id        Int      @id @default(autoincrement())
-        nombre    String
-        direccion String?
-        Prestamos Prestamo[]
-      }
+    model User {
+      id       Int       @id @default(autoincrement())
+      name     String
+      address  String?
+      loans    Loan[]
+    }
 
-      model Libro {
-        id              Int        @id @default(autoincrement())
-        titulo          String
-        fechaPublicacion DateTime?
-        disponible      Boolean
-        LibroAutor      LibroAutor[]
-        Prestamos       Prestamo[]
-      }
+    model Book {
+      id              Int            @id @default(autoincrement())
+      isbn            String         @unique
+      title           String
+      publicationDate DateTime?
+      bookAuthors     BookAuthor[]
+      physicalBooks   PhysicalBook[]
+    }
 
-      model Autor {
-        id         Int        @id @default(autoincrement())
-        nombre     String
-        LibroAutor LibroAutor[]
-      }
+    model PhysicalBook {
+      id        Int     @id @default(autoincrement())
+      available Boolean @default(true)
+      bookId    Int
+      book      Book    @relation(fields: [bookId], references: [id])
+      loans     Loan[]
+    }
 
-      model LibroAutor {
-        id       Int   @id @default(autoincrement())
-        libroId  Int
-        autorId  Int
-        libro    Libro @relation(fields: [libroId], references: [id])
-        autor    Autor @relation(fields: [autorId], references: [id])
-      }
+    model Author {
+      id          Int          @id @default(autoincrement())
+      name        String
+      bookAuthors BookAuthor[]
+    }
 
-      model Prestamo {
-        id             Int      @id @default(autoincrement())
-        usuarioId      Int
-        libroId        Int
-        fechaPrestamo  DateTime
-        fechaDevolucion DateTime?
-        usuario        Usuario @relation(fields: [usuarioId], references: [id])
-        libro          Libro   @relation(fields: [libroId], references: [id])
-      }
+    model BookAuthor {
+      id       Int    @id @default(autoincrement())
+      bookId   Int
+      authorId Int
+      book     Book   @relation(fields: [bookId], references: [id])
+      author   Author @relation(fields: [authorId], references: [id])
+
+      @@unique([bookId, authorId])
+    }
+
+    model Loan {
+      id             Int          @id @default(autoincrement())
+      userId         Int
+      physicalBookId Int
+      loanDate       DateTime     @default(now())
+      returnDate     DateTime?
+      physicalBook   PhysicalBook @relation(fields: [physicalBookId], references: [id])
+      user           User         @relation(fields: [userId], references: [id])
+    } -->
+
 5. Ejecutar la migración con `npx prisma migrate dev --name init`
     Desde backend/:
 
@@ -201,13 +213,14 @@
 ### 1. Clonar el repo
 ```bash
 
-  git clone https://github.com/tu_usuario/tu_proyecto.git
-  cd tu_proyecto
+  git clone url_del_proyecto
+  cd Proyecto-Servidor
 
 ```
 ### 2. Crear el archivo .env
 
   Ir a la carpeta backend/ y crear un archivo .env.
+  Para esto existe una carpeta llamada `.env.example`, la puedes copiar y llamar `.env`
   Un ejemplo de cómo debería quedar:
 
   POSTGRES_USER=user
@@ -250,4 +263,7 @@
   En backend/:
 
   npm run dev
+
+
+  Ahora si todo esta correcto puedes empezar a hacer llamadas a la api y sus funcionalidades.
 

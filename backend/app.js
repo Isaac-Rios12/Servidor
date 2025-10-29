@@ -1,13 +1,12 @@
 import express from 'express';
 import cors from 'cors';
 
-// Importar rutas (ESM usa "import" en lugar de require)
 import userRoutes from './src/routes/user.routes.js';
 import bookRoutes from './src/routes/book.routes.js';
 import authorRoutes from './src/routes/author.routes.js';
 import loanRoutes from './src/routes/loan.routes.js';
 import bookAuthorRoutes from './src/routes/bookAuthor.routes.js';
-
+import physicalBook from './src/routes/physicalBook.routes.js'
 const app = express();
 
 app.use(cors());
@@ -28,6 +27,7 @@ app.use('/api/books', bookRoutes);
 app.use('/api/authors', authorRoutes);
 app.use('/api/loans', loanRoutes);
 app.use('/api/book-authors', bookAuthorRoutes);
+app.use('/api/physical-book', physicalBook)
 
 // Manejo de ruta no encontrada
 app.use((req, res) => {

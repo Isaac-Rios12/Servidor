@@ -279,8 +279,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.17.1
-   * Query Engine version: 272a37d34178c2894197e17273bf937f25acdeac
+   * Prisma Client JS version: 6.18.0
+   * Query Engine version: 34b5a692b7bd79939a9a2c3ef97d816e749cda2f
    */
   export type PrismaVersion = {
     client: string
@@ -293,6 +293,7 @@ export namespace Prisma {
    */
 
 
+  export import Bytes = runtime.Bytes
   export import JsonObject = runtime.JsonObject
   export import JsonArray = runtime.JsonArray
   export import JsonValue = runtime.JsonValue
@@ -6921,6 +6922,7 @@ export namespace Prisma {
     physicalBookId: number | null
     loanDate: Date | null
     returnDate: Date | null
+    returned: boolean | null
   }
 
   export type LoanMaxAggregateOutputType = {
@@ -6929,6 +6931,7 @@ export namespace Prisma {
     physicalBookId: number | null
     loanDate: Date | null
     returnDate: Date | null
+    returned: boolean | null
   }
 
   export type LoanCountAggregateOutputType = {
@@ -6937,6 +6940,7 @@ export namespace Prisma {
     physicalBookId: number
     loanDate: number
     returnDate: number
+    returned: number
     _all: number
   }
 
@@ -6959,6 +6963,7 @@ export namespace Prisma {
     physicalBookId?: true
     loanDate?: true
     returnDate?: true
+    returned?: true
   }
 
   export type LoanMaxAggregateInputType = {
@@ -6967,6 +6972,7 @@ export namespace Prisma {
     physicalBookId?: true
     loanDate?: true
     returnDate?: true
+    returned?: true
   }
 
   export type LoanCountAggregateInputType = {
@@ -6975,6 +6981,7 @@ export namespace Prisma {
     physicalBookId?: true
     loanDate?: true
     returnDate?: true
+    returned?: true
     _all?: true
   }
 
@@ -7070,6 +7077,7 @@ export namespace Prisma {
     physicalBookId: number
     loanDate: Date
     returnDate: Date | null
+    returned: boolean
     _count: LoanCountAggregateOutputType | null
     _avg: LoanAvgAggregateOutputType | null
     _sum: LoanSumAggregateOutputType | null
@@ -7097,6 +7105,7 @@ export namespace Prisma {
     physicalBookId?: boolean
     loanDate?: boolean
     returnDate?: boolean
+    returned?: boolean
     physicalBook?: boolean | PhysicalBookDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["loan"]>
@@ -7107,6 +7116,7 @@ export namespace Prisma {
     physicalBookId?: boolean
     loanDate?: boolean
     returnDate?: boolean
+    returned?: boolean
     physicalBook?: boolean | PhysicalBookDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["loan"]>
@@ -7117,6 +7127,7 @@ export namespace Prisma {
     physicalBookId?: boolean
     loanDate?: boolean
     returnDate?: boolean
+    returned?: boolean
     physicalBook?: boolean | PhysicalBookDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["loan"]>
@@ -7127,9 +7138,10 @@ export namespace Prisma {
     physicalBookId?: boolean
     loanDate?: boolean
     returnDate?: boolean
+    returned?: boolean
   }
 
-  export type LoanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "physicalBookId" | "loanDate" | "returnDate", ExtArgs["result"]["loan"]>
+  export type LoanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "physicalBookId" | "loanDate" | "returnDate" | "returned", ExtArgs["result"]["loan"]>
   export type LoanInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     physicalBook?: boolean | PhysicalBookDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -7155,6 +7167,7 @@ export namespace Prisma {
       physicalBookId: number
       loanDate: Date
       returnDate: Date | null
+      returned: boolean
     }, ExtArgs["result"]["loan"]>
     composites: {}
   }
@@ -7585,6 +7598,7 @@ export namespace Prisma {
     readonly physicalBookId: FieldRef<"Loan", 'Int'>
     readonly loanDate: FieldRef<"Loan", 'DateTime'>
     readonly returnDate: FieldRef<"Loan", 'DateTime'>
+    readonly returned: FieldRef<"Loan", 'Boolean'>
   }
     
 
@@ -8063,7 +8077,8 @@ export namespace Prisma {
     userId: 'userId',
     physicalBookId: 'physicalBookId',
     loanDate: 'loanDate',
-    returnDate: 'returnDate'
+    returnDate: 'returnDate',
+    returned: 'returned'
   };
 
   export type LoanScalarFieldEnum = (typeof LoanScalarFieldEnum)[keyof typeof LoanScalarFieldEnum]
@@ -8418,6 +8433,7 @@ export namespace Prisma {
     physicalBookId?: IntFilter<"Loan"> | number
     loanDate?: DateTimeFilter<"Loan"> | Date | string
     returnDate?: DateTimeNullableFilter<"Loan"> | Date | string | null
+    returned?: BoolFilter<"Loan"> | boolean
     physicalBook?: XOR<PhysicalBookScalarRelationFilter, PhysicalBookWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
@@ -8428,6 +8444,7 @@ export namespace Prisma {
     physicalBookId?: SortOrder
     loanDate?: SortOrder
     returnDate?: SortOrderInput | SortOrder
+    returned?: SortOrder
     physicalBook?: PhysicalBookOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
   }
@@ -8441,6 +8458,7 @@ export namespace Prisma {
     physicalBookId?: IntFilter<"Loan"> | number
     loanDate?: DateTimeFilter<"Loan"> | Date | string
     returnDate?: DateTimeNullableFilter<"Loan"> | Date | string | null
+    returned?: BoolFilter<"Loan"> | boolean
     physicalBook?: XOR<PhysicalBookScalarRelationFilter, PhysicalBookWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
@@ -8451,6 +8469,7 @@ export namespace Prisma {
     physicalBookId?: SortOrder
     loanDate?: SortOrder
     returnDate?: SortOrderInput | SortOrder
+    returned?: SortOrder
     _count?: LoanCountOrderByAggregateInput
     _avg?: LoanAvgOrderByAggregateInput
     _max?: LoanMaxOrderByAggregateInput
@@ -8467,6 +8486,7 @@ export namespace Prisma {
     physicalBookId?: IntWithAggregatesFilter<"Loan"> | number
     loanDate?: DateTimeWithAggregatesFilter<"Loan"> | Date | string
     returnDate?: DateTimeNullableWithAggregatesFilter<"Loan"> | Date | string | null
+    returned?: BoolWithAggregatesFilter<"Loan"> | boolean
   }
 
   export type UserCreateInput = {
@@ -8685,6 +8705,7 @@ export namespace Prisma {
   export type LoanCreateInput = {
     loanDate?: Date | string
     returnDate?: Date | string | null
+    returned?: boolean
     physicalBook: PhysicalBookCreateNestedOneWithoutLoansInput
     user: UserCreateNestedOneWithoutLoansInput
   }
@@ -8695,11 +8716,13 @@ export namespace Prisma {
     physicalBookId: number
     loanDate?: Date | string
     returnDate?: Date | string | null
+    returned?: boolean
   }
 
   export type LoanUpdateInput = {
     loanDate?: DateTimeFieldUpdateOperationsInput | Date | string
     returnDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returned?: BoolFieldUpdateOperationsInput | boolean
     physicalBook?: PhysicalBookUpdateOneRequiredWithoutLoansNestedInput
     user?: UserUpdateOneRequiredWithoutLoansNestedInput
   }
@@ -8710,6 +8733,7 @@ export namespace Prisma {
     physicalBookId?: IntFieldUpdateOperationsInput | number
     loanDate?: DateTimeFieldUpdateOperationsInput | Date | string
     returnDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returned?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type LoanCreateManyInput = {
@@ -8718,11 +8742,13 @@ export namespace Prisma {
     physicalBookId: number
     loanDate?: Date | string
     returnDate?: Date | string | null
+    returned?: boolean
   }
 
   export type LoanUpdateManyMutationInput = {
     loanDate?: DateTimeFieldUpdateOperationsInput | Date | string
     returnDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returned?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type LoanUncheckedUpdateManyInput = {
@@ -8731,6 +8757,7 @@ export namespace Prisma {
     physicalBookId?: IntFieldUpdateOperationsInput | number
     loanDate?: DateTimeFieldUpdateOperationsInput | Date | string
     returnDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returned?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -9077,6 +9104,7 @@ export namespace Prisma {
     physicalBookId?: SortOrder
     loanDate?: SortOrder
     returnDate?: SortOrder
+    returned?: SortOrder
   }
 
   export type LoanAvgOrderByAggregateInput = {
@@ -9091,6 +9119,7 @@ export namespace Prisma {
     physicalBookId?: SortOrder
     loanDate?: SortOrder
     returnDate?: SortOrder
+    returned?: SortOrder
   }
 
   export type LoanMinOrderByAggregateInput = {
@@ -9099,6 +9128,7 @@ export namespace Prisma {
     physicalBookId?: SortOrder
     loanDate?: SortOrder
     returnDate?: SortOrder
+    returned?: SortOrder
   }
 
   export type LoanSumOrderByAggregateInput = {
@@ -9606,6 +9636,7 @@ export namespace Prisma {
   export type LoanCreateWithoutUserInput = {
     loanDate?: Date | string
     returnDate?: Date | string | null
+    returned?: boolean
     physicalBook: PhysicalBookCreateNestedOneWithoutLoansInput
   }
 
@@ -9614,6 +9645,7 @@ export namespace Prisma {
     physicalBookId: number
     loanDate?: Date | string
     returnDate?: Date | string | null
+    returned?: boolean
   }
 
   export type LoanCreateOrConnectWithoutUserInput = {
@@ -9651,6 +9683,7 @@ export namespace Prisma {
     physicalBookId?: IntFilter<"Loan"> | number
     loanDate?: DateTimeFilter<"Loan"> | Date | string
     returnDate?: DateTimeNullableFilter<"Loan"> | Date | string | null
+    returned?: BoolFilter<"Loan"> | boolean
   }
 
   export type BookAuthorCreateWithoutBookInput = {
@@ -9766,6 +9799,7 @@ export namespace Prisma {
   export type LoanCreateWithoutPhysicalBookInput = {
     loanDate?: Date | string
     returnDate?: Date | string | null
+    returned?: boolean
     user: UserCreateNestedOneWithoutLoansInput
   }
 
@@ -9774,6 +9808,7 @@ export namespace Prisma {
     userId: number
     loanDate?: Date | string
     returnDate?: Date | string | null
+    returned?: boolean
   }
 
   export type LoanCreateOrConnectWithoutPhysicalBookInput = {
@@ -10024,11 +10059,13 @@ export namespace Prisma {
     physicalBookId: number
     loanDate?: Date | string
     returnDate?: Date | string | null
+    returned?: boolean
   }
 
   export type LoanUpdateWithoutUserInput = {
     loanDate?: DateTimeFieldUpdateOperationsInput | Date | string
     returnDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returned?: BoolFieldUpdateOperationsInput | boolean
     physicalBook?: PhysicalBookUpdateOneRequiredWithoutLoansNestedInput
   }
 
@@ -10037,6 +10074,7 @@ export namespace Prisma {
     physicalBookId?: IntFieldUpdateOperationsInput | number
     loanDate?: DateTimeFieldUpdateOperationsInput | Date | string
     returnDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returned?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type LoanUncheckedUpdateManyWithoutUserInput = {
@@ -10044,6 +10082,7 @@ export namespace Prisma {
     physicalBookId?: IntFieldUpdateOperationsInput | number
     loanDate?: DateTimeFieldUpdateOperationsInput | Date | string
     returnDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returned?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type BookAuthorCreateManyBookInput = {
@@ -10091,11 +10130,13 @@ export namespace Prisma {
     userId: number
     loanDate?: Date | string
     returnDate?: Date | string | null
+    returned?: boolean
   }
 
   export type LoanUpdateWithoutPhysicalBookInput = {
     loanDate?: DateTimeFieldUpdateOperationsInput | Date | string
     returnDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returned?: BoolFieldUpdateOperationsInput | boolean
     user?: UserUpdateOneRequiredWithoutLoansNestedInput
   }
 
@@ -10104,6 +10145,7 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
     loanDate?: DateTimeFieldUpdateOperationsInput | Date | string
     returnDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returned?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type LoanUncheckedUpdateManyWithoutPhysicalBookInput = {
@@ -10111,6 +10153,7 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
     loanDate?: DateTimeFieldUpdateOperationsInput | Date | string
     returnDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returned?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type BookAuthorCreateManyAuthorInput = {

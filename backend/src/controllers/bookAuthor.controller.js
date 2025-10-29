@@ -1,6 +1,18 @@
 import { PrismaClient } from '../../generated/prisma/index.js';
 const prisma = new PrismaClient();
 
+export const getAllRelations = async (req, res) => {
+    try{
+        const relations = await prisma.bookAuthor.findMany();
+        if (!relations){
+            res.status(404).json({ message: "Relaciones de libros y autores no encontradas"});
+        }
+        res.status(201).json({message: relations})
+    } catch (error){
+        console.error(error)
+        res.status(500).json({message: "Error al obtener las relaciones de libro autor"});
+    }
+};
 
 export const createBookAuthor = async (req, res) => {
     const { bookId, authorId } = req.body;
@@ -48,6 +60,18 @@ export const deleteRelation = async (req, res) => {
 };
 
 export const updateRelation = async (req, res) => {
+    try{
+        const { id, bookId, authorId } = req.body;
+        const relation = await prisma.bookAuthor.update({
+            where: {id: parseInt(id)},
+            data: {bookId, authorId}
+        });
+        res.status(200).json({ message: "Relacion actualizada"});
+    } catch (error){
+        if (error.code === "P2025"){
+            res.status(500).json({error: "Relacion con esta ID no existe"});
+        }
+    }
 
-}
+};
 
